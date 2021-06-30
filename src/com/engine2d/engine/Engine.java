@@ -9,6 +9,7 @@ import com.engine2d.gfx.Display;
 import com.engine2d.gfx.objects.Renderable;
 import com.engine2d.gfx.objects.Tickable;
 import com.engine2d.input.Input;
+import com.engine2d.input.InputListener;
 
 public abstract class Engine implements Runnable {
 	
@@ -23,6 +24,7 @@ public abstract class Engine implements Runnable {
 	
 	private PriorityQueue<Tickable> tickList;
 	private PriorityQueue<Renderable> renderList;
+	private PriorityQueue<InputListener> inputList;
 	
 	private Input input;
 	
@@ -33,16 +35,19 @@ public abstract class Engine implements Runnable {
 	}
 	
 	protected void init() {}
+	protected void handleInput() {}
 	protected void handleInput(Input input) {}
 	protected void tick() {}
+	protected void tick(double dt) {}
 	protected void render() {}
+	protected void render(Graphics g, double interpolation) {}
 	
 	private void initEngine() {
 		tickList = new PriorityQueue<Tickable>(new Comparator<Tickable>() {
 
 			@Override
 			public int compare(Tickable o1, Tickable o2) {
-				return o1.getTickPriority() - o2.getTickPriority();
+				return o1.getTickPriority() > o2.getTickPriority() ? 1 : -1;
 			}
 			
 		});
@@ -54,6 +59,16 @@ public abstract class Engine implements Runnable {
 			}
 			
 		});
+		inputList = new PriorityQueue<InputListener>(new Comparator<InputListener>() {
+
+			@Override
+			public int compare(InputListener o1, InputListener o2) {
+				return o1.getInputPriority() > o2.getInputPriority() ? 1 : -1;
+			}
+			
+			
+		});
+		
 		
 		input.registerToDisplay(display);
 		
@@ -63,7 +78,15 @@ public abstract class Engine implements Runnable {
 	private void handleEngineInput() {
 		input.handleInput();
 		
+		handleInput();
+		while (!inputList.isEmpty())
+			inputList.poll().handleInput(input);
+		inputList.clear();
 		handleInput(input);
+	}
+	
+	protected void handleInput(InputListener obj) {
+		inputList.add(obj);
 	}
 	
 	private void tickEngine(double dt) {		
@@ -71,6 +94,7 @@ public abstract class Engine implements Runnable {
 		while (!tickList.isEmpty())
 			tickList.poll().tick(dt);
 		tickList.clear();
+		tick(dt);
 	}
 	
 	protected void tick(Tickable obj) {
@@ -90,6 +114,7 @@ public abstract class Engine implements Runnable {
 		while (!renderList.isEmpty())
 			renderList.poll().render(g, interpolation);
 		renderList.clear();
+		render(g, interpolation);
 		
 		bs.show();
 		g.dispose();
