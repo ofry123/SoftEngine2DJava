@@ -19,7 +19,7 @@ public class Test {
 		public Game(String title, int width, int height) {
 			super(title, width, height);
 			
-			b = new TextView("Ofry", new Vector3(20, 20, 0), 200, 50);
+			b = new TextView("Ofry lalal la ll al la lal l lal l ll ", new Vector3(20, 20, 0), 200, 50);
 		}
 		
 		@Override
