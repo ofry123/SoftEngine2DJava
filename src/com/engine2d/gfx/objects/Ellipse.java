@@ -9,40 +9,94 @@ import java.awt.geom.Ellipse2D;
 import com.engine2d.utils.Vector2;
 import com.engine2d.utils.Vector3;
 
+/**
+ * Class to draw an ellipse
+ * @author OfryBY
+ *
+ */
 public class Ellipse implements Renderable {
 	
+	//Position
 	protected Vector3 pos;
+	//Size
 	protected double width, height;
+	//is the position the center
 	protected boolean centered;
 	
+	//Drawing properties
 	protected boolean fill = false, stroke = false;
 	protected Color strokeColor = Color.BLACK, fillColor = Color.BLACK;
 	protected float thickness = 1;
 	
+	/**
+	 * Creates an ellipse
+	 * @param pos position of the ellipse
+	 * @param width width of the ellipse - major axis
+	 * @param height height of the ellipse - minor axis
+	 * @param isCentered is the position the center
+	 */
 	public Ellipse(Vector3 pos, double width, double height, boolean isCentered) {
 		setPos(pos);
 		setSize(width, height);
 		setCentered(isCentered);
 	}
 	
+	/**
+	 * Creates not-centered ellipse
+	 * @param pos position of the ellipse
+	 * @param width width of the ellipse - major axis
+	 * @param height height of the ellipse - minor axis
+	 */
 	public Ellipse(Vector3 pos, double width, double height) {
 		this(pos, width, height, false);
 	}
 	
+	/**
+	 * Creates an ellipse
+	 * @param x x-coordinate of the ellipse
+	 * @param y y-coordinate of the ellipse
+	 * @param z z-index of the circle (render priority)
+	 * @param width width of the ellipse - major axis
+	 * @param height height of the ellipse - minor axis
+	 * @param isCentered is the position the center
+	 */
 	public Ellipse(double x, double y, double z, double width, double height, boolean isCentered) {
 		setPos(x, y, z);
 		setSize(width, height);
 		setCentered(isCentered);
 	}
 	
+	/**
+	 * Creates an ellipse
+	 * @param x x-coordinate of the ellipse
+	 * @param y y-coordinate of the ellipse
+	 * @param width
+	 * @param height
+	 * @param isCentered is the position the center
+	 */
 	public Ellipse(double x, double y, double width, double height, boolean isCentered) {
 		this(x, y, 0, width, height, isCentered);
 	}
 	
+	/**
+	 * Creates not-centered ellipse
+	 * @param x x-coordinate of the ellipse
+	 * @param y y-coordinate of the ellipse
+	 * @param z z-index of the circle (render priority)
+	 * @param width width of the ellipse - major axis
+	 * @param height height of the ellipse - minor axis
+	 */
 	public Ellipse(double x, double y, double z, double width, double height) {
 		this(x, y, z, width, height, false);
 	}
 	
+	/**
+	 * Creates not-centered ellipse
+	 * @param x x-coordinate of the ellipse
+	 * @param y y-coordinate of the ellipse
+	 * @param width width of the ellipse - major axis
+	 * @param height height of the ellipse - minor axis
+	 */
 	public Ellipse(double x, double y, double width, double height) {
 		this(x, y, 0, width, height, false);
 	}
@@ -75,8 +129,8 @@ public class Ellipse implements Renderable {
 	}
 
 	@Override
-	public int getRenderPriority() {
-		return (int)pos.getZ();
+	public double getRenderPriority() {
+		return pos.getZ();
 	}
 	
 	//Getters and Setters

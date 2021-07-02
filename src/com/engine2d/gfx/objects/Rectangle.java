@@ -6,8 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import com.engine2d.utils.Vector2;
 import com.engine2d.utils.Vector3;
 
+/**
+ * Class to draw rectangle
+ * @author OfryBY
+ *
+ */
 public class Rectangle implements Renderable {
 	
 	protected Vector3 pos;
@@ -17,16 +23,60 @@ public class Rectangle implements Renderable {
 	protected Color strokeColor = Color.BLACK, fillColor = Color.BLACK;
 	protected float thickness = 1;
 	
+	/**
+	 * Create a rectangle
+	 * @param pos origin (top left) point of rectangle
+	 * @param width width of rectangle
+	 * @param height height of rectangle
+	 */
 	public Rectangle(Vector3 pos, double width, double height) {
 		setPos(pos);
 		setSize(width, height);
 	}
 	
+	/**
+	 * Create a rectangle
+	 * @param pos origin (top left) point of rectangle
+	 * @param width width of rectangle
+	 * @param height height of rectangle
+	 */
+	public Rectangle(Vector2 pos, double width, double height) {
+		setPos(pos);
+		setSize(width, height);
+	}
+	
+	/**
+	 * Create a rectangle
+	 * @param pos origin (top left) point of rectangle
+	 * @param z
+	 * @param width width of rectangle
+	 * @param height height of rectangle
+	 */
+	public Rectangle(Vector2 pos, double z, double width, double height) {
+		setPos(pos, z);
+		setSize(width, height);
+	}
+	
+	/**
+	 * Create a rectangle
+	 * @param x x-coordinate of origin (top left)
+	 * @param y y-coordinate of origin (top left)
+	 * @param z z-index (render priority)
+	 * @param width width of rectangle
+	 * @param height height of rectangle
+	 */
 	public Rectangle(double x, double y, double z, double width, double height) {
 		setPos(x, y, z);
 		setSize(width, height);
 	}
 	
+	/**
+	 * Create a rectangle
+	 * @param x x-coordinate of origin (top left)
+	 * @param y y-coordinate of origin (top left)
+	 * @param width width of rectangle
+	 * @param height height of rectangle
+	 */
 	public Rectangle(double x, double y, double width, double height) {
 		this(x, y, 0, width, height);
 	}
@@ -56,94 +106,102 @@ public class Rectangle implements Renderable {
 	}
 
 	@Override
-	public int getRenderPriority() {
-		return (int) this.pos.getZ();
+	public double getRenderPriority() {
+		return pos.getZ();
 	}
 	
 	//Getters and Setters
-		//Position
-		public void setPos(Vector3 pos) {
-			this.pos = new Vector3(pos);
-		}
-		
-		public void setPos(double x, double y, double z) {
-			this.pos = new Vector3(x, y, z);
-		}
-		
-		public void setPos(double x, double y) {
-			setPos(x, y, 0);
-		}
-		
-		public Vector3 getPos() {
-			return new Vector3(pos);
-		}
-		
-		//Size
-		public void setSize(double width, double height) {
-			setWidth(width);
-			setHeight(height);
-		}
-		
-		//Width
-		public void setWidth(double width) {
-			this.width = width;
-		}
-		
-		public double getWidth() {
-			return this.width;
-		}
-		
-		//Height
-		public void setHeight(double height) {
-			this.height = height;
-		}
-		
-		public double getHeight() {
-			return this.height;
-		}
-		
-		//Color
-		public void setFillColor(Color color) {
-			this.fillColor = color;
-		}
-		
-		public void setFillColor(int color) {
-			setFillColor(new Color(color));
-		}
-		
-		public Color getFillColor() {
-			return this.fillColor;
-		}
-		
-		public void setStrokeColor(Color color) {
-			this.strokeColor = color;
-		}
-		
-		public void setStrokeColor(int color) {
-			setStrokeColor(new Color(color));
-		}
-		
-		public Color getStrokeColor() {
-			return this.strokeColor;
-		}
-		
-		public void setFill(boolean isFill, boolean isStroke) {
-			this.fill = isFill;
-			this.stroke = isStroke;
-		}
-		
-		public void setFill(boolean isFill) {
-			setFill(isFill, false);
-		}
-		
-		//Thickness
-		public void setThickness(float thickness) {
-			this.thickness = thickness;
-		}
-		
-		public float getThickness() {
-			return this.thickness;
-		}
+	//Position
+	public void setPos(Vector3 pos) {
+		this.pos = new Vector3(pos);
+	}
 	
+	public void setPos(Vector2 pos) {
+		setPos(pos.getX(), pos.getY());
+	}
+	
+	public void setPos(Vector2 pos, double z) {
+		setPos(pos.getX(), pos.getY(), z);
+	}
+	
+	public void setPos(double x, double y, double z) {
+		this.pos = new Vector3(x, y, z);
+	}
+	
+	public void setPos(double x, double y) {
+		setPos(x, y, 0);
+	}
+	
+	public Vector3 getPos() {
+		return new Vector3(pos);
+	}
+	
+	//Size
+	public void setSize(double width, double height) {
+		setWidth(width);
+		setHeight(height);
+	}
+	
+	//Width
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	
+	public double getWidth() {
+		return this.width;
+	}
+	
+	//Height
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
+	public double getHeight() {
+		return this.height;
+	}
+	
+	//Color
+	public void setFillColor(Color color) {
+		this.fillColor = color;
+	}
+	
+	public void setFillColor(int color) {
+		setFillColor(new Color(color));
+	}
+	
+	public Color getFillColor() {
+		return this.fillColor;
+	}
+	
+	public void setStrokeColor(Color color) {
+		this.strokeColor = color;
+	}
+	
+	public void setStrokeColor(int color) {
+		setStrokeColor(new Color(color));
+	}
+	
+	public Color getStrokeColor() {
+		return this.strokeColor;
+	}
+	
+	public void setFill(boolean isFill, boolean isStroke) {
+		this.fill = isFill;
+		this.stroke = isStroke;
+	}
+	
+	public void setFill(boolean isFill) {
+		setFill(isFill, false);
+	}
+	
+	//Thickness
+	public void setThickness(float thickness) {
+		this.thickness = thickness;
+	}
+	
+	public float getThickness() {
+		return this.thickness;
+	}
+
 	
 }

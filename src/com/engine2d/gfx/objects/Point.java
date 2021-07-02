@@ -6,26 +6,67 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
+import com.engine2d.utils.Vector2;
 import com.engine2d.utils.Vector3;
 
+/**
+ * Class to draw a point
+ * @author OfryBY
+ *
+ */
 public class Point implements Renderable {
 	
 	protected Vector3 pos;
 	protected float thickness = 1;
 	protected Color color = Color.BLACK;
 	
+	/**
+	 * Create a point
+	 * @param pos position of point
+	 */
 	public Point(Vector3 pos) {
 		setPos(pos);
 	}
 	
+	/**
+	 * Create a point
+	 * @param pos position of point
+	 */
+	public Point(Vector2 pos) {
+		setPos(pos);
+	}
+	
+	/**
+	 * Create a point
+	 * @param pos position of point
+	 * @param z z-index (render priority)
+	 */
+	public Point(Vector2 pos, double z) {
+		setPos(pos, z);
+	}
+	
+	/**
+	 * Create a point
+	 * @param x x-coordinate of point
+	 * @param y y-coordinate of point
+	 * @param z z-index (render priority)
+	 */
 	public Point(double x, double y, double z) {
 		setPos(x, y, z);
 	}
 	
+	/**
+	 * Create a point
+	 * @param x x-coordinate of point
+	 * @param y y-coordinate of point
+	 */
 	public Point(double x, double y) {
 		this(x, y, 0);
 	}
 	
+	/**
+	 * Creates a point
+	 */
 	public Point() {
 		this(0, 0, 0);
 	}
@@ -48,6 +89,14 @@ public class Point implements Renderable {
 	
 	public void setPos(Vector3 pos) {
 		this.pos = new Vector3(pos);
+	}
+	
+	public void setPos(Vector2 pos) {
+		setPos(pos.getX(), pos.getY());
+	}
+	
+	public void setPos(Vector2 pos, double z) {
+		setPos(pos.getX(), pos.getY(), z);
 	}
 	
 	public void setPos(double x, double y) {
@@ -79,8 +128,8 @@ public class Point implements Renderable {
 	}
 	
 	@Override
-	public int getRenderPriority() {
-		return (int) pos.getZ();
+	public double getRenderPriority() {
+		return pos.getZ();
 	}
 	
 }

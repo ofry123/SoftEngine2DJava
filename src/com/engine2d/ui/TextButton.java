@@ -5,29 +5,24 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import com.engine2d.gfx.objects.Rectangle;
-import com.engine2d.gfx.objects.Tickable;
 import com.engine2d.input.Input;
 import com.engine2d.input.InputListener;
 import com.engine2d.utils.Collision;
 import com.engine2d.utils.Vector2;
 import com.engine2d.utils.Vector3;
 
-public class TextButton extends UIObject implements InputListener {
+public class TextButton extends TextView implements InputListener {
 	
 	private static final int DEFAULT_COLOR = 0xd7dadd,
 							 DEFAULT_HOVER_COLOR = 0x7a8793,
 							 DEFAULT_DOWN_COLOR = 0xd71b2c,
 							 DEFAULT_CLICK_COLOR = 0x1dae51;
 	
-	private String text;
-	
 	private boolean hovering, down, clicked;
 	private Clickable clickEvent;
 	
-	private Rectangle background;
-	
 	public TextButton(String text, Vector3 pos, double width, double height) {
-		super(pos, width, height);
+		super(text, pos, width, height);
 		setText(text);
 		
 		background = new Rectangle(pos, width, height);
@@ -62,7 +57,7 @@ public class TextButton extends UIObject implements InputListener {
 		final Graphics2D gfx = (Graphics2D) g.create();
 		
 		background.render(g, interpolation);
-		
+		super.render(g, interpolation);
 		
 		
 		gfx.dispose();
@@ -70,15 +65,6 @@ public class TextButton extends UIObject implements InputListener {
 	
 	protected boolean isHovering(Vector2 mousePos) {
 		return Collision.pointInRect(mousePos, pos, width, height);
-	}
-	
-	
-	public void setText(String text) {
-		this.text = new String(text);
-	}
-	
-	public String getText() {
-		return new String(text);
 	}
 	
 	public void setClick(Clickable clickEvent) {

@@ -24,8 +24,8 @@ public abstract class UIObject implements Renderable {
 	}
 	
 	@Override
-	public int getRenderPriority() {
-		return (int)pos.getZ();
+	public double getRenderPriority() {
+		return pos.getZ();
 	}
 	
 	
